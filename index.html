@@ -3,149 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Purchase - Payment with Discount</title>
+    <title>DevAPI Pro - Developer Payment Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            color: #f1f1f1;
+            color: #f0f6fc;
         }
         
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             padding: 20px;
         }
         
-        header {
+        /* Header */
+        .dev-header {
             text-align: center;
             margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #30363d;
         }
         
-        .logo {
+        .dev-logo {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
-        .logo-icon {
-            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+        .dev-logo-icon {
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, #58a6ff, #1f6feb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .dev-subtitle {
+            color: #8b949e;
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Developer Auth Card */
+        .auth-card {
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid #30363d;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .auth-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .auth-icon {
+            background: #238636;
             width: 50px;
             height: 50px;
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
         }
         
-        h1 {
-            font-size: 2.8rem;
-            background: linear-gradient(to right, #4cc9f0, #4361ee);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
+        .auth-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #f0f6fc;
         }
         
-        .subtitle {
-            color: #a0a0c0;
+        .auth-description {
+            color: #8b949e;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .auth-input-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .auth-input {
+            flex: 1;
+            padding: 18px 20px;
+            background: #0d1117;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            color: #f0f6fc;
+            font-size: 1.1rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+        
+        .auth-input:focus {
+            outline: none;
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+            background: #0d1117;
+        }
+        
+        .auth-button {
+            background: linear-gradient(45deg, #238636, #2ea043);
+            color: white;
+            border: none;
+            padding: 18px 30px;
             font-size: 1.2rem;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .auth-button:hover {
+            background: linear-gradient(45deg, #2ea043, #3fb950);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(35, 134, 54, 0.3);
+        }
+        
+        .auth-button:active {
+            transform: translateY(0);
+        }
+        
+        .auth-message {
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .auth-success {
+            background: rgba(35, 134, 54, 0.15);
+            color: #3fb950;
+            border-left: 4px solid #3fb950;
+        }
+        
+        .auth-error {
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border-left: 4px solid #f85149;
+        }
+        
+        /* Payment Card (Initially Hidden) */
+        .payment-section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .payment-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .payment-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
+            background: rgba(22, 27, 34, 0.9);
+            border-radius: 16px;
             padding: 40px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid #30363d;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             margin-bottom: 30px;
         }
         
-        .card-header {
+        .payment-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
         }
         
-        .card-title {
+        .payment-title {
             font-size: 1.8rem;
             font-weight: 600;
+            color: #f0f6fc;
+        }
+        
+        .dev-badge {
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .price-container {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(13, 17, 23, 0.6);
+            border-radius: 12px;
+            border: 1px solid #30363d;
         }
         
         .original-price {
             font-size: 1.8rem;
             text-decoration: line-through;
-            color: #a0a0c0;
+            color: #8b949e;
         }
         
         .discounted-price {
-            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
             color: white;
-            padding: 8px 20px;
-            border-radius: 50px;
+            padding: 12px 25px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 1.8rem;
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(88, 166, 255, 0.2);
         }
         
         .features {
             list-style: none;
             margin-bottom: 40px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
         
         .features li {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            background: rgba(13, 17, 23, 0.6);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             gap: 15px;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            border: 1px solid #30363d;
         }
         
         .features li i {
-            color: #4cc9f0;
-            width: 24px;
+            color: #58a6ff;
+            width: 20px;
         }
         
         .discount-section {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(13, 17, 23, 0.6);
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
-            border-left: 4px solid #4cc9f0;
+            border-left: 4px solid #58a6ff;
         }
         
         .discount-title {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: #4cc9f0;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .discount-input-group {
@@ -156,22 +320,23 @@
         .discount-input {
             flex: 1;
             padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(22, 27, 34, 0.8);
+            border: 2px solid #30363d;
             border-radius: 10px;
-            color: white;
+            color: #f0f6fc;
             font-size: 1rem;
+            font-family: 'Courier New', monospace;
             transition: all 0.3s;
         }
         
         .discount-input:focus {
             outline: none;
-            border-color: #4cc9f0;
-            background: rgba(255, 255, 255, 0.1);
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
         }
         
         .apply-discount-btn {
-            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
             color: white;
             border: none;
             padding: 0 30px;
@@ -183,7 +348,14 @@
         
         .apply-discount-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+            box-shadow: 0 5px 15px rgba(88, 166, 255, 0.3);
+        }
+        
+        .apply-discount-btn:disabled {
+            background: #484f58;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         .discount-message {
@@ -192,28 +364,24 @@
             border-radius: 8px;
             font-weight: 600;
             display: none;
+            align-items: center;
+            gap: 10px;
         }
         
         .discount-success {
-            background: rgba(46, 204, 113, 0.15);
-            color: #2ecc71;
-            border-left: 4px solid #2ecc71;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: rgba(46, 160, 67, 0.15);
+            color: #3fb950;
+            border-left: 4px solid #3fb950;
         }
         
         .discount-error {
-            background: rgba(231, 76, 60, 0.15);
-            color: #e74c3c;
-            border-left: 4px solid #e74c3c;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            background: rgba(248, 81, 73, 0.15);
+            color: #f85149;
+            border-left: 4px solid #f85149;
         }
         
         .payment-btn {
-            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
             color: white;
             border: none;
             padding: 20px 40px;
@@ -223,26 +391,38 @@
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
-            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(88, 166, 255, 0.2);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
         .payment-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 25px rgba(76, 201, 240, 0.3);
+            box-shadow: 0 15px 30px rgba(88, 166, 255, 0.3);
         }
         
         .payment-btn:active {
-            transform: translateY(1px);
+            transform: translateY(0);
         }
         
+        .payment-btn:disabled {
+            background: #484f58;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(13, 17, 23, 0.95);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -258,16 +438,15 @@
         }
         
         .modal {
-            background: #1a1a2e;
+            background: #0d1117;
             width: 90%;
-            max-width: 600px;
-            border-radius: 20px;
+            max-width: 500px;
+            border-radius: 16px;
             padding: 40px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid #30363d;
             transform: translateY(30px);
             transition: transform 0.4s ease;
-            max-height: 90vh;
-            overflow-y: auto;
         }
         
         .modal-overlay.active .modal {
@@ -283,13 +462,13 @@
         
         .modal-title {
             font-size: 1.8rem;
-            color: #f1f1f1;
+            color: #f0f6fc;
         }
         
         .close-btn {
             background: transparent;
             border: none;
-            color: #a0a0c0;
+            color: #8b949e;
             font-size: 1.8rem;
             cursor: pointer;
             transition: color 0.3s;
@@ -302,15 +481,16 @@
         }
         
         .close-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
+            color: #f0f6fc;
+            background: rgba(240, 246, 252, 0.05);
         }
         
         .payment-summary {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(22, 27, 34, 0.8);
             border-radius: 12px;
             padding: 25px;
             margin-bottom: 30px;
+            border: 1px solid #30363d;
         }
         
         .summary-row {
@@ -318,7 +498,7 @@
             justify-content: space-between;
             margin-bottom: 15px;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid #30363d;
         }
         
         .summary-row:last-child {
@@ -326,11 +506,11 @@
             margin-bottom: 0;
             padding-bottom: 0;
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
         
         .summary-label {
-            color: #a0a0c0;
+            color: #8b949e;
         }
         
         .summary-value {
@@ -338,66 +518,16 @@
         }
         
         .discount-applied {
-            color: #2ecc71;
+            color: #3fb950;
         }
         
         .total-amount {
-            color: #4cc9f0;
-            font-size: 1.5rem;
-        }
-        
-        .card-details-form {
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: #a0a0c0;
-            font-weight: 600;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            color: white;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #4cc9f0;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        
-        .card-input-group {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .card-input-group .form-group {
-            flex: 1;
-        }
-        
-        .expiry-cvv-group {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .expiry-cvv-group .form-group {
-            flex: 1;
+            color: #58a6ff;
+            font-size: 1.6rem;
         }
         
         .modal-payment-btn {
-            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            background: linear-gradient(45deg, #58a6ff, #1f6feb);
             color: white;
             border: none;
             padding: 18px;
@@ -407,7 +537,7 @@
             cursor: pointer;
             width: 100%;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
+            box-shadow: 0 10px 25px rgba(88, 166, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -416,20 +546,13 @@
         
         .modal-payment-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(76, 201, 240, 0.3);
-        }
-        
-        .modal-payment-btn:disabled {
-            background: #555;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+            box-shadow: 0 15px 30px rgba(88, 166, 255, 0.3);
         }
         
         .footer-note {
             text-align: center;
             margin-top: 30px;
-            color: #a0a0c0;
+            color: #8b949e;
             font-size: 0.9rem;
         }
         
@@ -439,7 +562,45 @@
             justify-content: center;
             gap: 10px;
             margin-top: 15px;
-            color: #2ecc71;
+            color: #3fb950;
+        }
+        
+        .developer-id-display {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(13, 17, 23, 0.6);
+            border-radius: 10px;
+            border: 1px solid #30363d;
+        }
+        
+        .id-label {
+            color: #8b949e;
+            font-size: 1rem;
+        }
+        
+        .id-value {
+            color: #58a6ff;
+            font-weight: 700;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .logout-btn {
+            background: transparent;
+            border: 1px solid #f85149;
+            color: #f85149;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: rgba(248, 81, 73, 0.1);
         }
         
         @media (max-width: 768px) {
@@ -447,7 +608,7 @@
                 padding: 10px;
             }
             
-            .payment-card {
+            .auth-card, .payment-card {
                 padding: 25px;
             }
             
@@ -455,24 +616,24 @@
                 font-size: 2.2rem;
             }
             
-            .card-header {
+            .auth-input-group {
+                flex-direction: column;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-header {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 15px;
             }
             
             .price-container {
-                width: 100%;
-                justify-content: space-between;
-            }
-            
-            .discount-input-group {
                 flex-direction: column;
-            }
-            
-            .card-input-group {
-                flex-direction: column;
-                gap: 0;
+                align-items: flex-start;
+                gap: 15px;
             }
             
             .modal {
@@ -483,33 +644,76 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-code"></i>
+        <header class="dev-header">
+            <div class="dev-logo">
+                <div class="dev-logo-icon">
+                    <i class="fas fa-terminal"></i>
                 </div>
                 <h1>API Pro Enterprise</h1>
             </div>
-            <p class="subtitle">Purchase our premium API access with enterprise-grade features, scalable infrastructure, and dedicated support.</p>
+            <p class="dev-subtitle">Exclusive developer portal for API access. Authentication required to proceed with payment.</p>
         </header>
         
-        <main>
+        <!-- Developer Authentication Card -->
+        <div class="auth-card" id="authCard">
+            <div class="auth-header">
+                <div class="auth-icon">
+                    <i class="fas fa-key"></i>
+                </div>
+                <div>
+                    <div class="auth-title">Developer Authentication</div>
+                    <div class="auth-description">Enter your developer ID to access the payment portal. This is required to proceed.</div>
+                </div>
+            </div>
+            
+            <div class="auth-form">
+                <div class="auth-input-group">
+                    <input type="text" class="auth-input" id="developerId" placeholder="Enter Developer ID" maxlength="20">
+                    <button class="auth-button" id="loginButton">
+                        <i class="fas fa-sign-in-alt"></i> Authenticate
+                    </button>
+                </div>
+                <div class="auth-message" id="authMessage"></div>
+            </div>
+            
+            <div class="auth-description">
+                <i class="fas fa-info-circle"></i> 
+                <strong>Note:</strong> Only authorized developers with valid IDs can access this portal.
+            </div>
+        </div>
+        
+        <!-- Payment Section (Initially Hidden) -->
+        <div class="payment-section" id="paymentSection">
+            <div class="developer-id-display">
+                <div>
+                    <div class="id-label">Logged in as Developer</div>
+                    <div class="id-value" id="loggedInId">ID-1319</div>
+                </div>
+                <button class="logout-btn" id="logoutButton">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            
             <div class="payment-card">
-                <div class="card-header">
-                    <div class="card-title">Enterprise API Package</div>
-                    <div class="price-container">
-                        <div class="original-price">$450.00</div>
-                        <div class="discounted-price" id="finalPrice">$450.00</div>
+                <div class="payment-header">
+                    <div class="payment-title">Enterprise API Package</div>
+                    <div class="dev-badge">
+                        <i class="fas fa-code"></i> Developer Exclusive
                     </div>
+                </div>
+                
+                <div class="price-container">
+                    <div class="original-price">$450.00</div>
+                    <div class="discounted-price" id="finalPrice">$450.00</div>
                 </div>
                 
                 <div class="discount-section">
                     <div class="discount-title">
-                        <i class="fas fa-tag"></i> Apply Discount Code
+                        <i class="fas fa-tag"></i> Developer Discount Code
                     </div>
                     <div class="discount-input-group">
-                        <input type="text" class="discount-input" id="discountCode" placeholder="Enter discount code " maxlength="20">
-                        <button class="apply-discount-btn" id="applyDiscount">Apply</button>
+                        <input type="text" class="discount-input" id="discountCode" placeholder="Enter discount code (e.g., ALPHA250)" maxlength="20" disabled>
+                        <button class="apply-discount-btn" id="applyDiscount" disabled>Apply</button>
                     </div>
                     <div class="discount-message" id="discountMessage"></div>
                 </div>
@@ -521,9 +725,11 @@
                     <li><i class="fas fa-check-circle"></i> <span>99.9% Uptime SLA</span></li>
                     <li><i class="fas fa-check-circle"></i> <span>Advanced Security Features</span></li>
                     <li><i class="fas fa-check-circle"></i> <span>Priority Access to New Features</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Webhook Support</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Custom Rate Limiting</span></li>
                 </ul>
                 
-                <button id="paymentButton" class="payment-btn">
+                <button id="paymentButton" class="payment-btn" disabled>
                     <i class="fas fa-credit-card"></i> PROCEED TO PAYMENT
                 </button>
             </div>
@@ -531,9 +737,9 @@
             <p class="footer-note">Your payment is secured with 256-bit SSL encryption. You'll receive a confirmation email.</p>
             <div class="secure-payment">
                 <i class="fas fa-shield-alt"></i>
-                <span>Secure Payment</span>
+                <span>Secure Payment | Developer Exclusive Portal</span>
             </div>
-        </main>
+        </div>
     </div>
     
     <!-- Payment Modal -->
@@ -559,48 +765,33 @@
                 </div>
             </div>
             
-            <div class="card-details-form">
-                <h3 style="margin-bottom: 20px; color: #f1f1f1;">Card Details</h3>
-                
-                <div class="form-group">
-                    <label class="form-label" for="cardNumber">Card Number</label>
-                    <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label" for="cardholderName">Cardholder Name</label>
-                    <input type="text" class="form-input" id="cardholderName" placeholder="John Smith">
-                </div>
-                
-                <div class="expiry-cvv-group">
-                    <div class="form-group">
-                        <label class="form-label" for="expiryDate">Expiry Date</label>
-                        <input type="text" class="form-input" id="expiryDate" placeholder="MM/YY" maxlength="5">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="cvv">CVV</label>
-                        <input type="password" class="form-input" id="cvv" placeholder="123" maxlength="4">
-                    </div>
-                </div>
-            </div>
-            
-            <button class="modal-payment-btn" id="confirmPayment" disabled>
+            <button class="modal-payment-btn" id="confirmPayment">
                 <i class="fas fa-lock"></i> PAY <span id="confirmAmount">$450.00</span>
             </button>
             
-            <p class="footer-note">Your payment information is encrypted and secure. We do not store your card details.</p>
+            <p class="footer-note">Your payment will be processed securely. Developer ID: <span id="modalDevId">ID-1319</span></p>
         </div>
     </div>
 
     <script>
-        // Initial state
+        // Application State
+        let isAuthenticated = false;
+        let developerId = "";
         let originalPrice = 450;
         let discountApplied = false;
         let discountValue = 0;
         let finalPrice = originalPrice;
         
         // DOM Elements
+        const authCard = document.getElementById('authCard');
+        const paymentSection = document.getElementById('paymentSection');
+        const developerIdInput = document.getElementById('developerId');
+        const loginButton = document.getElementById('loginButton');
+        const authMessage = document.getElementById('authMessage');
+        const logoutButton = document.getElementById('logoutButton');
+        const loggedInIdElement = document.getElementById('loggedInId');
+        const modalDevId = document.getElementById('modalDevId');
+        
         const paymentButton = document.getElementById('paymentButton');
         const paymentModal = document.getElementById('paymentModal');
         const closeModal = document.getElementById('closeModal');
@@ -614,44 +805,112 @@
         const discountSummaryRow = document.getElementById('discountSummaryRow');
         const confirmAmountElement = document.getElementById('confirmAmount');
         
-        // Card input elements
-        const cardNumberInput = document.getElementById('cardNumber');
-        const cardholderNameInput = document.getElementById('cardholderName');
-        const expiryDateInput = document.getElementById('expiryDate');
-        const cvvInput = document.getElementById('cvv');
-        
-        // Open payment modal when clicking the payment button
-        paymentButton.addEventListener('click', () => {
-            updateModalPrices();
-            paymentModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        
-        // Close modal when clicking the close button
-        closeModal.addEventListener('click', () => {
-            paymentModal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Close modal when clicking outside the modal
-        paymentModal.addEventListener('click', (e) => {
-            if (e.target === paymentModal) {
-                paymentModal.classList.remove('active');
-                document.body.style.overflow = 'auto';
+        // Developer Authentication
+        loginButton.addEventListener('click', authenticateDeveloper);
+        developerIdInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                authenticateDeveloper();
             }
         });
         
-        // Apply discount code
+        function authenticateDeveloper() {
+            const id = developerIdInput.value.trim().toUpperCase();
+            
+            // Reset message
+            authMessage.style.display = 'none';
+            authMessage.className = 'auth-message';
+            
+            // Validate ID
+            if (!id) {
+                showAuthMessage('Please enter your Developer ID', 'error');
+                return;
+            }
+            
+            // Check if it's the valid ID (ID-1319)
+            if (id === 'ID-1319') {
+                isAuthenticated = true;
+                developerId = id;
+                
+                // Update UI
+                showAuthMessage('Authentication successful! Welcome, Developer.', 'success');
+                loggedInIdElement.textContent = id;
+                modalDevId.textContent = id;
+                
+                // Enable payment section
+                setTimeout(() => {
+                    authCard.style.display = 'none';
+                    paymentSection.classList.add('active');
+                    
+                    // Enable discount and payment buttons
+                    discountCodeInput.disabled = false;
+                    applyDiscountBtn.disabled = false;
+                    paymentButton.disabled = false;
+                }, 1000);
+                
+                // Clear the input
+                developerIdInput.value = '';
+            } else {
+                showAuthMessage('Invalid Developer ID. Access denied.', 'error');
+                isAuthenticated = false;
+                
+                // Disable everything
+                discountCodeInput.disabled = true;
+                applyDiscountBtn.disabled = true;
+                paymentButton.disabled = true;
+            }
+        }
+        
+        function showAuthMessage(message, type) {
+            authMessage.textContent = message;
+            authMessage.className = `auth-message auth-${type}`;
+            authMessage.style.display = 'flex';
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    authMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        // Logout functionality
+        logoutButton.addEventListener('click', () => {
+            isAuthenticated = false;
+            developerId = "";
+            
+            // Reset payment section
+            paymentSection.classList.remove('active');
+            setTimeout(() => {
+                authCard.style.display = 'flex';
+                paymentSection.style.display = 'none';
+            }, 300);
+            
+            // Reset all payment states
+            resetPaymentState();
+            
+            // Show logout message
+            showAuthMessage('You have been logged out successfully.', 'success');
+            setTimeout(() => {
+                authMessage.style.display = 'none';
+            }, 2000);
+        });
+        
+        // Apply discount code (only works if authenticated)
         applyDiscountBtn.addEventListener('click', applyDiscount);
         
         // Also apply discount when pressing Enter in the discount input
         discountCodeInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && !applyDiscountBtn.disabled) {
                 applyDiscount();
             }
         });
         
         function applyDiscount() {
+            if (!isAuthenticated) {
+                showDiscountMessage('Authentication required to apply discount', 'error');
+                return;
+            }
+            
             const code = discountCodeInput.value.trim().toUpperCase();
             
             // Reset message
@@ -672,7 +931,7 @@
                 
                 // Update UI
                 finalPriceElement.textContent = `$${finalPrice}.00`;
-                showDiscountMessage(`Discount applied! $${discountValue} off your purchase.`, 'success');
+                showDiscountMessage(`Developer discount applied! $${discountValue} off your purchase.`, 'success');
                 
                 // Update the button text
                 paymentButton.innerHTML = `<i class="fas fa-credit-card"></i> PAY $${finalPrice}.00`;
@@ -702,6 +961,32 @@
             }
         }
         
+        // Open payment modal when clicking the payment button
+        paymentButton.addEventListener('click', () => {
+            if (!isAuthenticated) {
+                showDiscountMessage('Please authenticate first', 'error');
+                return;
+            }
+            
+            updateModalPrices();
+            paymentModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close modal when clicking the close button
+        closeModal.addEventListener('click', () => {
+            paymentModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close modal when clicking outside the modal
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
         function updateModalPrices() {
             if (discountApplied) {
                 modalTotalAmount.textContent = `$${finalPrice}.00`;
@@ -715,67 +1000,6 @@
             confirmAmountElement.textContent = `$${finalPrice}.00`;
         }
         
-        // Card input validation and formatting
-        cardNumberInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-            let formattedValue = value.replace(/(\d{4})/g, '$1 ').trim();
-            e.target.value = formattedValue;
-            validateForm();
-        });
-        
-        expiryDateInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/[^0-9]/g, '');
-            if (value.length >= 2) {
-                value = value.slice(0, 2) + '/' + value.slice(2, 4);
-            }
-            e.target.value = value;
-            validateForm();
-        });
-        
-        cvvInput.addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/[^0-9]/g, '');
-            validateForm();
-        });
-        
-        cardholderNameInput.addEventListener('input', validateForm);
-        
-        // Form validation function
-        function validateForm() {
-            const cardNumber = cardNumberInput.value.replace(/\s+/g, '');
-            const cardholderName = cardholderNameInput.value.trim();
-            const expiryDate = expiryDateInput.value;
-            const cvv = cvvInput.value;
-            
-            // Basic validation
-            const isCardNumberValid = cardNumber.length >= 15 && cardNumber.length <= 19;
-            const isCardholderNameValid = cardholderName.length >= 3;
-            const isExpiryDateValid = /^\d{2}\/\d{2}$/.test(expiryDate);
-            const isCvvValid = cvv.length >= 3 && cvv.length <= 4;
-            
-            const isFormValid = isCardNumberValid && isCardholderNameValid && isExpiryDateValid && isCvvValid;
-            
-            confirmPayment.disabled = !isFormValid;
-            
-            // Visual feedback
-            const inputs = [cardNumberInput, cardholderNameInput, expiryDateInput, cvvInput];
-            inputs.forEach(input => {
-                if (input.value && !input.checkValidity && input.value.length > 0) {
-                    // Custom validation
-                    if (input === cardNumberInput) {
-                        input.style.borderColor = isCardNumberValid ? '#4cc9f0' : '#e74c3c';
-                    } else if (input === cardholderNameInput) {
-                        input.style.borderColor = isCardholderNameValid ? '#4cc9f0' : '#e74c3c';
-                    } else if (input === expiryDateInput) {
-                        input.style.borderColor = isExpiryDateValid ? '#4cc9f0' : '#e74c3c';
-                    } else if (input === cvvInput) {
-                        input.style.borderColor = isCvvValid ? '#4cc9f0' : '#e74c3c';
-                    }
-                } else if (!input.value) {
-                    input.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                }
-            });
-        }
-        
         // Handle payment confirmation
         confirmPayment.addEventListener('click', () => {
             // Show loading state
@@ -785,7 +1009,7 @@
             // Simulate payment processing
             setTimeout(() => {
                 // In a real app, this would process the payment via a payment gateway
-                alert(`Payment of $${finalPrice}.00 was successful! Thank you for your purchase.`);
+                alert(`Payment of $${finalPrice}.00 successful!\nDeveloper ID: ${developerId}\nTransaction ID: DEV-${Date.now()}`);
                 
                 // Reset button and close modal
                 confirmPayment.innerHTML = '<i class="fas fa-lock"></i> PAY <span id="confirmAmount">$' + finalPrice + '.00</span>';
@@ -793,14 +1017,27 @@
                 paymentModal.classList.remove('active');
                 document.body.style.overflow = 'auto';
                 
-                // Reset form
-                cardNumberInput.value = '';
-                cardholderNameInput.value = '';
-                expiryDateInput.value = '';
-                cvvInput.value = '';
-                validateForm();
+                // Reset payment state after successful payment
+                resetPaymentState();
             }, 2000);
         });
+        
+        function resetPaymentState() {
+            discountApplied = false;
+            discountValue = 0;
+            finalPrice = originalPrice;
+            finalPriceElement.textContent = `$${finalPrice}.00`;
+            paymentButton.innerHTML = `<i class="fas fa-credit-card"></i> PROCEED TO PAYMENT`;
+            discountCodeInput.value = '';
+            discountMessage.style.display = 'none';
+            
+            // Disable discount and payment buttons if not authenticated
+            if (!isAuthenticated) {
+                discountCodeInput.disabled = true;
+                applyDiscountBtn.disabled = true;
+                paymentButton.disabled = true;
+            }
+        }
         
         // Close modal with Escape key
         document.addEventListener('keydown', (e) => {
@@ -810,8 +1047,10 @@
             }
         });
         
-        // Initialize form validation
-        validateForm();
+        // Initialize with disabled state
+        discountCodeInput.disabled = true;
+        applyDiscountBtn.disabled = true;
+        paymentButton.disabled = true;
     </script>
 </body>
 </html>

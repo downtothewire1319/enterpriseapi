@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Purchase - Payment with Discount</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #f1f1f1;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, #4cc9f0, #4361ee);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #a0a0c0;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .payment-card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .original-price {
+            font-size: 1.8rem;
+            text-decoration: line-through;
+            color: #a0a0c0;
+        }
+        
+        .discounted-price {
+            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+        
+        .features {
+            list-style: none;
+            margin-bottom: 40px;
+        }
+        
+        .features li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .features li i {
+            color: #4cc9f0;
+            width: 24px;
+        }
+        
+        .discount-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 4px solid #4cc9f0;
+        }
+        
+        .discount-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #4cc9f0;
+        }
+        
+        .discount-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .discount-input {
+            flex: 1;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .discount-input:focus {
+            outline: none;
+            border-color: #4cc9f0;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .apply-discount-btn {
+            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            color: white;
+            border: none;
+            padding: 0 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .apply-discount-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+        }
+        
+        .discount-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .discount-success {
+            background: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            border-left: 4px solid #2ecc71;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .discount-error {
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            border-left: 4px solid #e74c3c;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .payment-btn {
+            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            color: white;
+            border: none;
+            padding: 20px 40px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
+            letter-spacing: 1px;
+        }
+        
+        .payment-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(76, 201, 240, 0.3);
+        }
+        
+        .payment-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: #1a1a2e;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            transform: translateY(30px);
+            transition: transform 0.4s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            color: #f1f1f1;
+        }
+        
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: #a0a0c0;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .payment-summary {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .summary-label {
+            color: #a0a0c0;
+        }
+        
+        .summary-value {
+            font-weight: 600;
+        }
+        
+        .discount-applied {
+            color: #2ecc71;
+        }
+        
+        .total-amount {
+            color: #4cc9f0;
+            font-size: 1.5rem;
+        }
+        
+        .card-details-form {
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #a0a0c0;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.07);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4cc9f0;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .card-input-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .card-input-group .form-group {
+            flex: 1;
+        }
+        
+        .expiry-cvv-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .expiry-cvv-group .form-group {
+            flex: 1;
+        }
+        
+        .modal-payment-btn {
+            background: linear-gradient(45deg, #4cc9f0, #4361ee);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(76, 201, 240, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .modal-payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(76, 201, 240, 0.3);
+        }
+        
+        .modal-payment-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            color: #a0a0c0;
+            font-size: 0.9rem;
+        }
+        
+        .secure-payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            color: #2ecc71;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .payment-card {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .price-container {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .discount-input-group {
+                flex-direction: column;
+            }
+            
+            .card-input-group {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .modal {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h1>API Pro Enterprise</h1>
+            </div>
+            <p class="subtitle">Purchase our premium API access with enterprise-grade features, scalable infrastructure, and dedicated support.</p>
+        </header>
+        
+        <main>
+            <div class="payment-card">
+                <div class="card-header">
+                    <div class="card-title">Enterprise API Package</div>
+                    <div class="price-container">
+                        <div class="original-price">$450.00</div>
+                        <div class="discounted-price" id="finalPrice">$450.00</div>
+                    </div>
+                </div>
+                
+                <div class="discount-section">
+                    <div class="discount-title">
+                        <i class="fas fa-tag"></i> Apply Discount Code
+                    </div>
+                    <div class="discount-input-group">
+                        <input type="text" class="discount-input" id="discountCode" placeholder="Enter discount code " maxlength="20">
+                        <button class="apply-discount-btn" id="applyDiscount">Apply</button>
+                    </div>
+                    <div class="discount-message" id="discountMessage"></div>
+                </div>
+                
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> <span>10,000 API calls per day</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>24/7 Premium Support</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Real-time Analytics Dashboard</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>99.9% Uptime SLA</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Advanced Security Features</span></li>
+                    <li><i class="fas fa-check-circle"></i> <span>Priority Access to New Features</span></li>
+                </ul>
+                
+                <button id="paymentButton" class="payment-btn">
+                    <i class="fas fa-credit-card"></i> PROCEED TO PAYMENT
+                </button>
+            </div>
+            
+            <p class="footer-note">Your payment is secured with 256-bit SSL encryption. You'll receive a confirmation email.</p>
+            <div class="secure-payment">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure Payment</span>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Complete Your Purchase</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="payment-summary">
+                <div class="summary-row">
+                    <span class="summary-label">Original Price:</span>
+                    <span class="summary-value">$450.00</span>
+                </div>
+                <div class="summary-row" id="discountSummaryRow" style="display: none;">
+                    <span class="summary-label">Discount Applied:</span>
+                    <span class="summary-value discount-applied" id="discountAmount">-$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">Total Amount:</span>
+                    <span class="summary-value total-amount" id="modalTotalAmount">$450.00</span>
+                </div>
+            </div>
+            
+            <div class="card-details-form">
+                <h3 style="margin-bottom: 20px; color: #f1f1f1;">Card Details</h3>
+                
+                <div class="form-group">
+                    <label class="form-label" for="cardNumber">Card Number</label>
+                    <input type="text" class="form-input" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="cardholderName">Cardholder Name</label>
+                    <input type="text" class="form-input" id="cardholderName" placeholder="John Smith">
+                </div>
+                
+                <div class="expiry-cvv-group">
+                    <div class="form-group">
+                        <label class="form-label" for="expiryDate">Expiry Date</label>
+                        <input type="text" class="form-input" id="expiryDate" placeholder="MM/YY" maxlength="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="cvv">CVV</label>
+                        <input type="password" class="form-input" id="cvv" placeholder="123" maxlength="4">
+                    </div>
+                </div>
+            </div>
+            
+            <button class="modal-payment-btn" id="confirmPayment" disabled>
+                <i class="fas fa-lock"></i> PAY <span id="confirmAmount">$450.00</span>
+            </button>
+            
+            <p class="footer-note">Your payment information is encrypted and secure. We do not store your card details.</p>
+        </div>
+    </div>
+
+    <script>
+        // Initial state
+        let originalPrice = 450;
+        let discountApplied = false;
+        let discountValue = 0;
+        let finalPrice = originalPrice;
+        
+        // DOM Elements
+        const paymentButton = document.getElementById('paymentButton');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmPayment = document.getElementById('confirmPayment');
+        const applyDiscountBtn = document.getElementById('applyDiscount');
+        const discountCodeInput = document.getElementById('discountCode');
+        const discountMessage = document.getElementById('discountMessage');
+        const finalPriceElement = document.getElementById('finalPrice');
+        const modalTotalAmount = document.getElementById('modalTotalAmount');
+        const discountAmountElement = document.getElementById('discountAmount');
+        const discountSummaryRow = document.getElementById('discountSummaryRow');
+        const confirmAmountElement = document.getElementById('confirmAmount');
+        
+        // Card input elements
+        const cardNumberInput = document.getElementById('cardNumber');
+        const cardholderNameInput = document.getElementById('cardholderName');
+        const expiryDateInput = document.getElementById('expiryDate');
+        const cvvInput = document.getElementById('cvv');
+        
+        // Open payment modal when clicking the payment button
+        paymentButton.addEventListener('click', () => {
+            updateModalPrices();
+            paymentModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close modal when clicking the close button
+        closeModal.addEventListener('click', () => {
+            paymentModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close modal when clicking outside the modal
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Apply discount code
+        applyDiscountBtn.addEventListener('click', applyDiscount);
+        
+        // Also apply discount when pressing Enter in the discount input
+        discountCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                applyDiscount();
+            }
+        });
+        
+        function applyDiscount() {
+            const code = discountCodeInput.value.trim().toUpperCase();
+            
+            // Reset message
+            discountMessage.style.display = 'none';
+            discountMessage.className = 'discount-message';
+            
+            // Validate discount code
+            if (!code) {
+                showDiscountMessage('Please enter a discount code', 'error');
+                return;
+            }
+            
+            // Check if it's the valid discount code
+            if (code === 'ALPHA250') {
+                discountApplied = true;
+                discountValue = 250;
+                finalPrice = originalPrice - discountValue;
+                
+                // Update UI
+                finalPriceElement.textContent = `$${finalPrice}.00`;
+                showDiscountMessage(`Discount applied! $${discountValue} off your purchase.`, 'success');
+                
+                // Update the button text
+                paymentButton.innerHTML = `<i class="fas fa-credit-card"></i> PAY $${finalPrice}.00`;
+                
+                // Clear the input
+                discountCodeInput.value = '';
+            } else {
+                showDiscountMessage('Invalid discount code. Please try again.', 'error');
+                discountApplied = false;
+                discountValue = 0;
+                finalPrice = originalPrice;
+                finalPriceElement.textContent = `$${finalPrice}.00`;
+                paymentButton.innerHTML = `<i class="fas fa-credit-card"></i> PROCEED TO PAYMENT`;
+            }
+        }
+        
+        function showDiscountMessage(message, type) {
+            discountMessage.textContent = message;
+            discountMessage.className = `discount-message discount-${type}`;
+            discountMessage.style.display = 'flex';
+            
+            // Auto-hide error messages after 5 seconds
+            if (type === 'error') {
+                setTimeout(() => {
+                    discountMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        function updateModalPrices() {
+            if (discountApplied) {
+                modalTotalAmount.textContent = `$${finalPrice}.00`;
+                discountAmountElement.textContent = `-$${discountValue}.00`;
+                discountSummaryRow.style.display = 'flex';
+            } else {
+                modalTotalAmount.textContent = `$${originalPrice}.00`;
+                discountSummaryRow.style.display = 'none';
+            }
+            
+            confirmAmountElement.textContent = `$${finalPrice}.00`;
+        }
+        
+        // Card input validation and formatting
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+            let formattedValue = value.replace(/(\d{4})/g, '$1 ').trim();
+            e.target.value = formattedValue;
+            validateForm();
+        });
+        
+        expiryDateInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+            validateForm();
+        });
+        
+        cvvInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+            validateForm();
+        });
+        
+        cardholderNameInput.addEventListener('input', validateForm);
+        
+        // Form validation function
+        function validateForm() {
+            const cardNumber = cardNumberInput.value.replace(/\s+/g, '');
+            const cardholderName = cardholderNameInput.value.trim();
+            const expiryDate = expiryDateInput.value;
+            const cvv = cvvInput.value;
+            
+            // Basic validation
+            const isCardNumberValid = cardNumber.length >= 15 && cardNumber.length <= 19;
+            const isCardholderNameValid = cardholderName.length >= 3;
+            const isExpiryDateValid = /^\d{2}\/\d{2}$/.test(expiryDate);
+            const isCvvValid = cvv.length >= 3 && cvv.length <= 4;
+            
+            const isFormValid = isCardNumberValid && isCardholderNameValid && isExpiryDateValid && isCvvValid;
+            
+            confirmPayment.disabled = !isFormValid;
+            
+            // Visual feedback
+            const inputs = [cardNumberInput, cardholderNameInput, expiryDateInput, cvvInput];
+            inputs.forEach(input => {
+                if (input.value && !input.checkValidity && input.value.length > 0) {
+                    // Custom validation
+                    if (input === cardNumberInput) {
+                        input.style.borderColor = isCardNumberValid ? '#4cc9f0' : '#e74c3c';
+                    } else if (input === cardholderNameInput) {
+                        input.style.borderColor = isCardholderNameValid ? '#4cc9f0' : '#e74c3c';
+                    } else if (input === expiryDateInput) {
+                        input.style.borderColor = isExpiryDateValid ? '#4cc9f0' : '#e74c3c';
+                    } else if (input === cvvInput) {
+                        input.style.borderColor = isCvvValid ? '#4cc9f0' : '#e74c3c';
+                    }
+                } else if (!input.value) {
+                    input.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }
+            });
+        }
+        
+        // Handle payment confirmation
+        confirmPayment.addEventListener('click', () => {
+            // Show loading state
+            confirmPayment.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING PAYMENT...';
+            confirmPayment.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                // In a real app, this would process the payment via a payment gateway
+                alert(`Payment of $${finalPrice}.00 was successful! Thank you for your purchase.`);
+                
+                // Reset button and close modal
+                confirmPayment.innerHTML = '<i class="fas fa-lock"></i> PAY <span id="confirmAmount">$' + finalPrice + '.00</span>';
+                confirmPayment.disabled = false;
+                paymentModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                
+                // Reset form
+                cardNumberInput.value = '';
+                cardholderNameInput.value = '';
+                expiryDateInput.value = '';
+                cvvInput.value = '';
+                validateForm();
+            }, 2000);
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && paymentModal.classList.contains('active')) {
+                paymentModal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Initialize form validation
+        validateForm();
+    </script>
+</body>
+</html>
